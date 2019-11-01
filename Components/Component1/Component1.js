@@ -56,7 +56,7 @@ class Component1 extends React.Component {
       isSelected: false,
     };
     array.push(newObject);
-    this.setState({data: array});
+    this.setState({data: array, textInput: ''});
   };
 
   pressEdit = () => {
@@ -78,13 +78,11 @@ class Component1 extends React.Component {
   };
 
   handleSwitch = key => {
-    console.log('1', this.state.data);
-    let arrayChange = this.state.data;
-    let index = arrayChange.findIndex(item => {
+    let arrayStart = this.state.data;
+    let index = arrayStart.findIndex(item => {
       return item.key === key;
     });
     return value => {
-      // console.log('2', arrayChange);
       let arrayChange1 = this.state.data;
       arrayChange1[index].isSelected = value;
       this.setState({data: arrayChange1});
@@ -118,6 +116,7 @@ class Component1 extends React.Component {
           <Text>Name:</Text>
           <TextInput
             style={styles.textInputStyle}
+            value={textInput}
             onChangeText={this.setText}
           />
         </View>
