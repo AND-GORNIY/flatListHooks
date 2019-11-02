@@ -8,6 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import FlatlistItem from '../FlatlisItem';
+import {generateKey} from '../utils/generateKey';
 
 class Component1 extends React.Component {
   state = {
@@ -16,28 +17,18 @@ class Component1 extends React.Component {
   };
 
   makeRequest = () => {
-    fetch('https://randomuser.me/api/?results=3&inc=name')
+    fetch('https://randomuser.me/api/?results=15&inc=name')
       .then(res => res.json())
       .then(res => {
         this.makeArray(res);
       });
   };
 
-  generateKey = () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      // eslint-disable-next-line no-bitwise
-      let r = (Math.random() * 16) | 0,
-        // eslint-disable-next-line no-bitwise
-        v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  };
-
   makeArray = resultRequest => {
     const array = resultRequest.results.map(item => {
       return {
         name: item.name.first,
-        key: this.generateKey(),
+        key: generateKey(),
         isSelected: false,
       };
     });
@@ -52,7 +43,7 @@ class Component1 extends React.Component {
     let array = this.state.data;
     let newObject = {
       name: this.state.textInput,
-      key: this.generateKey(),
+      key: generateKey(),
       isSelected: false,
     };
     array.push(newObject);
@@ -78,14 +69,13 @@ class Component1 extends React.Component {
   };
 
   handleSwitch = key => {
-    let arrayStart = this.state.data;
-    let index = arrayStart.findIndex(item => {
-      return item.key === key;
-    });
     return value => {
-      let arrayChange1 = this.state.data;
-      arrayChange1[index].isSelected = value;
-      this.setState({data: arrayChange1});
+      let array = this.state.data;
+      let index = array.findIndex(item => {
+        return item.key === key;
+      });
+      array[index].isSelected = value;
+      this.setState({data: array});
     };
   };
 
@@ -95,11 +85,16 @@ class Component1 extends React.Component {
 
   render() {
     const {data, textInput} = this.state;
-    console.log('3', data);
     return (
       <View style={styles.viewStyle}>
         <FlatList
-          style={styles.flatListStyle}
+          style={{flex: 1}}
+          contentContainerStyle={{
+            flex: 0,
+            width: '90%',
+            alignItems: 'stretch',
+            alignSelf: 'center',
+          }}
           data={data}
           keyExtractor={item => item.key}
           renderItem={({item}) => (
@@ -143,11 +138,13 @@ class Component1 extends React.Component {
 const styles = StyleSheet.create({
   viewStyle: {
     flex: 1,
-    alignItems: 'center',
-    height: 100,
+    alignSelf: 'center',
   },
   flatListStyle: {
-    width: '100%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   textInputStyle: {
     width: '80%',
@@ -157,7 +154,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textInputLine: {
-    flex: 1,
+    flex: 0.15,
     width: '90%',
     flexDirection: 'row',
     margin: 10,
@@ -167,6 +164,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   button: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#75ccb9',
@@ -182,6 +180,7 @@ const styles = StyleSheet.create({
     width: '90%',
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'flex-end',
   },
 });
 export default Component1;

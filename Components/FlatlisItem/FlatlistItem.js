@@ -5,22 +5,16 @@ class FlatlistItem extends React.PureComponent {
   render() {
     const {name, isSelected, handleSwitch, id} = this.props;
     return (
-      <View style={styles.viewContainer}>
-        <View style={styles.viewStyle}>
-          <Text>Name: {name} </Text>
-          <Switch value={isSelected} onValueChange={handleSwitch(id)} />
-        </View>
+      <View style={styles.listElement}>
+        <Text>Name: {name} </Text>
+        <Switch value={isSelected} onValueChange={handleSwitch(id)} />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  viewContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  viewStyle: {
+  listElement: {
     flex: 1,
     padding: 5,
     margin: 5,

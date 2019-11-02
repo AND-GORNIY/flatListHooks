@@ -18,6 +18,5 @@ const styles = StyleSheet.create({
   app: {
     flex: 1,
     backgroundColor: '#a7ffeb',
-    alignItems: 'center',
   },
 });
