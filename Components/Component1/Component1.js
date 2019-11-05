@@ -8,15 +8,19 @@ import {
   FlatList,
 } from 'react-native';
 import FlatlistItem from '../FlatlisItem';
+import {useComponent1} from './useComponent1';
 
-const Component1 = ({
-  data,
-  textInput,
-  handleSwitch,
-  pressSave,
-  pressEdit,
-  disableEdit,
-}) => {
+const Component1 = () => {
+  const {
+    localState,
+    handleSwitch,
+    pressSave,
+    pressEdit,
+    disableEdit,
+    setText,
+  } = useComponent1();
+  const {textInput, data} = localState;
+  // console.log(data);
   return (
     <View style={styles.viewStyle}>
       <FlatList
@@ -40,14 +44,14 @@ const Component1 = ({
         <TextInput
           style={styles.textInputStyle}
           value={textInput}
-          onChangeText={this.setText}
+          onChangeText={setText}
         />
       </View>
 
       <View style={styles.buttonLine}>
         <TouchableOpacity
           style={styles.button}
-          onPress={this.pressSave}
+          onPress={pressSave}
           disabled={textInput.length > 0 ? false : true}>
           <Text style={styles.textButton}> Save </Text>
         </TouchableOpacity>
